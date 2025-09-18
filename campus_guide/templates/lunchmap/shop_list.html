@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>campus_guide</title>
+        <style>body {padding: 10px;}</style>
+    </head>
+    <body>
+        <h1>お店一覧</h1>
+
+        {% for University in object_list %}
+            <p>{{ University.category.name }},{{ University.name }}</p>
+        {% endfor %}
+    </body>
+</html>

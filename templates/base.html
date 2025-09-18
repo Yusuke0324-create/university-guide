@@ -1,0 +1,49 @@
+{# base.html #}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Canvas Compass{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+        body { font-family: 'Noto Sans JP', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen italic">
+
+    <header class="bg-white text-gray-800 shadow-sm sticky top-0 z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0">
+                    <a href="{% url 'campus_guide:top_page' %}" class="text-2xl font-bold tracking-wider">
+                       <i> Canvas Compass </i>
+                    </a>
+                </div>
+                <nav>
+                    <a href="{% url 'campus_guide:top_page' %}" class="px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors duration-200 not-italic">
+                        大学一覧
+                    </a>
+                    {# 今後リンクを追加する場合の例 #}
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        {% block contents %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-white text-gray-600 mt-12 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>&copy; {% now "Y" %} Canvas Compass. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}
+    {% endblock %}
+
+</body>
+</html>

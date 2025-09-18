@@ -1,0 +1,89 @@
+{# templates/app_folder/page01.html #}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Canvas Compass | 未来のキャンパスを見つけよう{% endblock %}
+
+{% block contents %}
+<div class="w-full">
+
+    <section class="relative w-full h-[60vh] flex items-center justify-center text-white">
+        <div class="absolute inset-0 bg-cover bg-center bg-gray-800" 
+             style="background-image: url('{% static 'images/kourakuen_koishikawa.jpg' %}');">
+             <div class="absolute inset-0 bg-black opacity-40"></div>
+        </div>
+        <div class="relative h-full flex flex-col justify-center items-start text-left max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight tracking-wider text-white pl-12 md:pl-24">
+        未来へ。
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg md:text-xl text-gray-200 pl-24 md:pl-500 pl-24">
+        可能性を広げる大学を
+    </p>
+</div>
+    </section>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-2 mb-8 text-right">
+    <p class="text-xs text-gray-500 italic">
+        参考文献: <a href="https://chu-pick.jimdofree.com/2023/05/24/photo-library/" class="hover:underline">中央大学都心学生向けwebサイト　Chu-Pick!より <br>中央大学後楽園キャンパス</br>
+        </a>
+    </p>
+</div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    
+        <div class="max-w-2xl mx-auto mb-16">
+            <h2 class="text-center text-3xl font-bold text-gray-800 mb-2 font-brand">大学を探す</h2>
+            <p class="text-center text-gray-500 mb-6">大学名の一部を入力して、<br>気になる大学を見つけよう。</br></p>
+            <form id="search-form" action="{% url 'campus_guide:search' %}" method="get">
+                {% csrf_token %}
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <input class="w-full p-4 pl-12 text-lg border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition" type="text" name="input_data" placeholder="例：中央大学">
+                </div>
+            </form>
+        </div>
+
+        {% if page_obj.object_list %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+            {% for university in page_obj.object_list %}
+            <a href="{% url 'campus_guide:detail_page' university.id %}" class="group relative block w-full h-80 rounded-2xl overflow-hidden shadow-lg">
+                <img src="{% if university.image %}{{ university.image.url }}{% else %}{% static 'images/scsk.jpg' %}{% endif %}" alt="{{ university.name }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                <div class="relative h-full flex flex-col justify-end p-6 text-white">
+                <p class="mb-2">
+                    <span class="text-xs font-semibold px-2 py-1 rounded-full text-white {% if university.category.name == '理系' %}bg-blue-500{% elif university.category.name == '文系' %}bg-red-500{% elif university.category.name == '総合' %}bg-green-500{% else %}bg-gray-500{% endif %}">
+                        {{ university.category.name }}
+                    </span>
+                </p>
+                    <h3 class="text-2xl font-bold mt-1 font-brand">{{ university.name }}</h3>
+                    <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center text-sm">
+                        詳しく見る <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+            <p class="text-center text-gray-500 text-lg">まだ大学が登録されていません。</p>
+        {% endif %}
+
+        {% if page_obj.paginator.num_pages > 1 %}
+        <nav aria-label="Page navigation" class="mt-16">
+            <ul class="flex justify-center items-center -space-x-px h-10 text-base">
+                {% if page_obj.has_previous %}
+                    <li><a href="?page={{ page_obj.previous_page_number }}" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700">前へ</a></li>
+                {% endif %}
+                <li class="flex items-center justify-center px-4 h-10 text-gray-700 bg-white border border-gray-300">
+                    <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                </li>
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700">次へ</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

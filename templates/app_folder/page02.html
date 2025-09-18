@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block contents %}
+
+<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+        検索結果: 「{{ query }}」
+    </h1>
+
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+        {% if results %}
+    <ul class="space-y-6">
+        {% for university in results %}
+        <li class="border-b pb-6 last:border-b-0">
+            <h2 class="text-2xl font-semibold text-indigo-700 hover:text-indigo-900">
+                <a href="{% url 'campus_guide:detail_page' university.pk %}">{{ university.name }}</a>
+            </h2>
+            <p class="text-gray-600 mt-2">{{ university.address }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+            <p class="text-gray-600 text-center text-lg">
+                「{{ query }}」に一致する大学は見つかりませんでした。
+            </p>
+        {% endif %}
+    </div>
+
+    <div class="text-center mt-12">
+        <a href='{% url "campus_guide:top_page" %}' class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-md shadow-md transition duration-300 inline-block">大学一覧へ戻る</a>
+    </div>
+</div>
+
+{% endblock %}
