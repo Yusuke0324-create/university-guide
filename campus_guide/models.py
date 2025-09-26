@@ -17,7 +17,7 @@ class Category(models.Model):
 
 class University(models.Model):
     name = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
+    #address = models.CharField(max_length=255)
     author = models.ForeignKey(
         'auth.User',
         on_delete=models.CASCADE,
@@ -33,9 +33,21 @@ class University(models.Model):
     def __str__(self):
         return self.name
     
+class Campus(models.Model):
+    university = models.ForeignKey(University, on_delete=models.CASCADE, related_name='campuses')
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='campus_images/', null=True, blank=True)
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.university.name} - {self.name}'
+    
 
 class Blog(models.Model):
-    university = models.ForeignKey(University, on_delete=models.CASCADE)  # 関連店舗
+    campus = models.ForeignKey(Campus, on_delete=models.CASCADE,related_name='blogs', null=True)  # 関連大学
     title = models.CharField(max_length=200)
     # content = RichTextUploadingField()  # CKeditor4の名残、一応残しとく
     content = CKEditor5Field(config_name='extends', blank=True, null=True)

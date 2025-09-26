@@ -8,9 +8,10 @@
         
         <div class="mb-6 text-sm text-gray-600">
             <p class="mb-1">
-                関連店舗: 
-                <a href="{% url 'campus_guide:detail_page' blog_post.university.pk %}" class="text-indigo-600 hover:text-indigo-800 font-semibold">
-                    {{ blog_post.university.name }}
+                関連キャンパス: 
+                {# ↓↓ 修正 ↓↓ #}
+                <a href="{% url 'campus_guide:campus_detail' blog_post.campus.pk %}" class="text-indigo-600 hover:text-indigo-800 font-semibold italic">
+                    {{ blog_post.campus.university.name }} - {{ blog_post.campus.name }}
                 </a>
             </p>
             <p class="mb-1">著者: {{ blog_post.author.username }}</p>
@@ -23,8 +24,9 @@
     </article>
 
     <div class="text-center mt-12">
-        <a href="{% url 'campus_guide:detail_page' blog_post.university.pk %}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-md shadow-md transition duration-300 inline-block">
-            「{{ blog_post.university.name }}」の詳細に戻る
+        {# ↓↓ 修正 ↓↓ #}
+        <a href="{% url 'campus_guide:campus_detail' blog_post.campus.pk %}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-md shadow-md transition duration-300 inline-block">
+            「{{ blog_post.campus.name }}」のブログ一覧に戻る
         </a>
     </div>
 </div>

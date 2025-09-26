@@ -12,7 +12,7 @@ from django.views.static import serve
 urlpatterns = [
     path('campus_guide/', include('campus_guide.urls')),
     path('sibuyasky1219/', admin.site.urls),
-    path('', RedirectView.as_view(pattern_name='campus_guide:top_page')),
+    path('', RedirectView.as_view(pattern_name='campus_guide:university_list')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
 
     # メディアファイルを本番環境で配信するための設定

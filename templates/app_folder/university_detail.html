@@ -1,0 +1,51 @@
+{# templates/app_folder/university_detail.html #}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ university.name }} | キャンパス一覧{% endblock %}
+
+{% block contents %}
+<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    
+    {# 大学のヘッダー情報 #}
+    <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 text-center">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 italic">{{ university.name }}</h1>
+        {% if university.image %}
+            <img src="{{ university.image.url }}" alt="{{ university.name }}" class="w-full h-64 object-cover rounded-lg shadow-md mx-auto max-w-lg">
+        {% endif %}
+    </div>
+
+    {# キャンパスカードの一覧表示 #}
+    <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center">キャンパス一覧</h2>
+    <div class="space-y-6">
+        {% for campus in university.campuses.all %}
+        <a href="{% url 'campus_guide:campus_detail' campus.pk %}" class="group block bg-white rounded-xl shadow-md hover:shadow-xl hover:border-indigo-500 border-2 border-transparent transition p-6 flex items-center space-x-6">
+            <div class="flex-shrink-0">
+                {% if campus.image %}
+                    <img class="h-24 w-24 object-cover rounded-full" src="{{ campus.image.url }}" alt="{{ campus.name }}">
+                {% else %}
+                    <div class="h-24 w-24 rounded-full bg-gray-200 flex items-center justify-center">
+                        <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    </div>
+                {% endif %}
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold text-indigo-700 group-hover:underline italic italic">{{ campus.name }}</h3>
+                <p class="text-gray-600 mt-2">{{ campus.address }}</p>
+            </div>
+        </a>
+        {% empty %}
+        <div class="col-span-full text-center text-gray-500 bg-white rounded-xl shadow-md p-8">
+            <p>この大学にはまだキャンパスが登録されていません。</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="text-center mt-12">
+        <a href="{% url 'campus_guide:university_list' %}" class="text-indigo-600 hover:text-indigo-800 font-semibold transition">
+            &larr; 大学一覧に戻る
+        </a>
+    </div>
+
+</div>
+{% endblock %}

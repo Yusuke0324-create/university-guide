@@ -1,8 +1,7 @@
 from django.contrib import admin
-
-# Register your models here.
-from .models import Category, University,Blog
+from .models import Category, University, Campus, Blog
 
 admin.site.register(Category)
 admin.site.register(University)
+admin.site.register(Campus)
 admin.site.register(Blog)
