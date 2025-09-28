@@ -30,8 +30,7 @@
                     </a>
                 </h3>
                 <div class="text-sm text-gray-500 mb-4">
-                    <span>投稿者: {{ blog.author.username }}</span> |
-                    <span>投稿日: {{ blog.created_at|date:"Y/m/d H:i" }}</span>
+                    
                 </div>
                 <div class="text-gray-700 prose max-w-none line-clamp-3">
                     {{ blog.content|safe }}
