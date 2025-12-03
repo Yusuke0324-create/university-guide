@@ -19,5 +19,6 @@ urlpatterns = [
     path('blog/<int:pk>/', views.BlogPostDetailView.as_view(), name='blog_post_detail'),
     
     # 5. 検索結果ページ
-    path('search/', views.SearchView.as_view(), name='search'),
+    path('search/', views.search_view, name='search'),
+# カッコなしで、「この関数を使ってね」と伝えるのが正解です
 ]

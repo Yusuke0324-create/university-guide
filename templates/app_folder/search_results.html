@@ -1,39 +1,58 @@
-{# templates/app_folder/search_results.html #}
 {% extends 'base.html' %}
+
+{% block title %}「{{ query }}」の検索結果{% endblock %}
+
 {% block contents %}
+<div class="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center mb-12">
+        <h1 class="text-3xl font-bold text-gray-800">
+            {% if query %}
+                「<span class="text-indigo-600">{{ query }}</span>」の検索結果
+            {% else %}
+                検索ワードが入力されていません
+            {% endif %}
+        </h1>
+        <p class="text-gray-500 mt-2">{{ results.count }} 件の記事が見つかりました</p>
+    </div>
 
-<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
-        検索結果: 「{{ query }}」
-    </h1>
-
-    <div class="bg-white rounded-2xl shadow-lg p-8">
-        {% if results %}
-        <ul class="space-y-6">
-            {# ↓↓ university を campus に変更 ↓↓ #}
-            {% for campus in results %}
-            <li class="border-b pb-6 last:border-b-0">
-                <h2 class="text-2xl font-semibold text-indigo-700 hover:text-indigo-900 italic">
-                    {# ↓↓ リンク先と表示内容を修正 ↓↓ #}
-                    <a href="{% url 'campus_guide:campus_detail' campus.pk %}">
-                        {{ campus.university.name }} - {{ campus.name }}
-                    </a>
-                </h2>
-                <p class="text-gray-600 mt-2">{{ campus.address }}</p>
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p class="text-gray-600 text-center text-lg">
-            「{{ query }}」に一致する大学・キャンパスは見つかりませんでした。
-        </p>
-        {% endif %}
+    <div class="space-y-8">
+        {% for blog in results %}
+        <article class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 border border-gray-100">
+            <a href="{% url 'campus_guide:blog_post_detail' blog.pk %}" class="block p-6 sm:p-8">
+                <div class="flex justify-between items-start mb-2">
+                    <h3 class="text-xl font-bold text-gray-800 hover:text-indigo-600 transition">
+                        {{ blog.title }}
+                    </h3>
+                    <span class="text-xs font-medium text-gray-400">
+                        {{ blog.created_at|date:"Y.m.d" }}
+                    </span>
+                </div>
+                {# どのカテゴリの記事かを表示 #}
+                <div class="mb-4">
+                    <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
+                        {{ blog.campus.university.name }}
+                    </span>
+                </div>
+                <div class="text-gray-600 text-sm line-clamp-2">
+                    {{ blog.content|striptags }}
+                </div>
+            </a>
+        </article>
+        {% empty %}
+            {% if query %}
+            <div class="text-center py-16 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+                <p class="text-gray-500 text-lg">記事が見つかりませんでした。</p>
+                <p class="text-gray-400 mt-2">別のキーワードで試してみてください。</p>
+            </div>
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div class="text-center mt-12">
-        {# ↓↓ リンク先を修正 ↓↓ #}
-        <a href='{% url "campus_guide:university_list" %}' class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-md shadow-md transition duration-300 inline-block">大学一覧へ戻る</a>
+        <a href="{% url 'campus_guide:university_list' %}" class="text-indigo-600 hover:underline">
+            &larr; トップに戻る
+        </a>
     </div>
 </div>
-
 {% endblock %}
