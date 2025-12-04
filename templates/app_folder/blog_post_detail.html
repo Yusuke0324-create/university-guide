@@ -1,32 +1,71 @@
-{# templates/app_folder/blog_post_detail.html #}
 {% extends 'base.html' %}
 
+{% block title %}{{ blog_post.title }}{% endblock %}
+
 {% block contents %}
-<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    <article class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">{{ blog_post.title }}</h1>
+<div class="w-full bg-gray-50 min-h-screen py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div class="mb-6 text-sm text-gray-600">
-            <p class="mb-1">
-                関連キャンパス: 
-                {# ↓↓ 修正 ↓↓ #}
-                <a href="{% url 'campus_guide:campus_detail' blog_post.campus.pk %}" class="text-indigo-600 hover:text-indigo-800 font-semibold italic">
-                    {{ blog_post.campus.university.name }} - {{ blog_post.campus.name }}
+        <article class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+            {# ヘッダー部分 #}
+            <div class="p-8 sm:p-12 border-b border-gray-100">
+                
+                {# 所属団体があれば表示 #}
+                {% if blog_post.organization %}
+                <a href="{% url 'campus_guide:search' %}?keyword={{ blog_post.organization.name }}" 
+                   class="inline-flex items-center gap-1 text-indigo-600 font-bold tracking-wide uppercase text-sm mb-4 hover:underline">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    {{ blog_post.organization.name }}
                 </a>
-            </p>
-            
+                {% endif %}
+
+                <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+                    {{ blog_post.title }}
+                </h1>
+
+                {# タグ（カテゴリ）と日付エリア #}
+                <div class="flex flex-wrap items-center gap-4">
+                    {# カテゴリループ表示 #}
+                    {% for category in blog_post.categories.all %}
+                    <a href="{% url 'campus_guide:university_detail' category.id %}" 
+                       class="px-3 py-1 rounded-full text-sm font-bold text-white {{ category.color }} hover:opacity-80 transition shadow-sm">
+                        # {{ category.name }}
+                    </a>
+                    {% endfor %}
+                    
+                    <div class="text-gray-400 text-sm font-medium ml-auto flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        {{ blog_post.created_at|date:"Y年m月d日" }}
+                    </div>
+                </div>
+            </div>
+
+            {# 本文エリア #}
+            <div class="p-8 sm:p-12 prose prose-lg prose-indigo max-w-none text-gray-700 leading-relaxed">
+                {{ blog_post.content|safe }}
+            </div>
+
+            {# 執筆者エリア（フッター） #}
+            <div class="bg-gray-50 px-8 py-6 border-t border-gray-100 flex items-center justify-between">
+                <span class="text-sm text-gray-500 font-medium">
+                    Posted by <span class="text-gray-800">{{ blog_post.author.username }}</span>
+                </span>
+                
+                {# 所属団体があればもう一度リンクを表示 #}
+                {% if blog_post.organization %}
+                <div class="text-sm text-gray-500">
+                    Category: {{ blog_post.organization.get_type_display }}
+                </div>
+                {% endif %}
+            </div>
+        </article>
+
+        <div class="text-center mt-12">
+            <a href="javascript:history.back()" class="inline-flex items-center text-gray-500 hover:text-indigo-600 font-medium transition bg-white px-8 py-3 rounded-full shadow-sm hover:shadow hover:-translate-y-0.5 transform duration-200">
+                &larr; 前のページに戻る
+            </a>
         </div>
 
-        <div class="prose max-w-none text-gray-800 leading-relaxed">
-            {{ blog_post.content|safe }}
-        </div>
-    </article>
-
-    <div class="text-center mt-12">
-        {# ↓↓ 修正 ↓↓ #}
-        <a href="{% url 'campus_guide:campus_detail' blog_post.campus.pk %}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-md shadow-md transition duration-300 inline-block">
-            「{{ blog_post.campus.name }}」のブログ一覧に戻る
-        </a>
     </div>
 </div>
 {% endblock %}

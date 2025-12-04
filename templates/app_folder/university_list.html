@@ -4,88 +4,118 @@
 {% block title %}Canvas Compass | 中央大学理工学部{% endblock %}
 
 {% block contents %}
-<div class="w-full">
+<div class="w-full bg-gray-50">
 
-    {# ヒーローセクション #}
-    <section class="relative w-full h-[60vh] flex items-center justify-center text-white" 
+    {# --- 1. ヒーローセクション --- #}
+    <section class="relative w-full h-[50vh] flex items-center justify-center text-white" 
              style="background-image: url('{% static 'images/kourakuen_koishikawa.jpg' %}'); background-size: cover; background-position: center;">
-        <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative text-center px-4">
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="relative text-center px-4 z-10">
             <h1 class="text-4xl md:text-6xl font-extrabold italic tracking-wider mb-4">
-                中央大学 理工学部
+                未来へ。
             </h1>
-            <p class="mt-2 text-lg md:text-2xl italic font-light">
+            
+            {# 入れ替え後：こちらを大きく（メインのサブタイトル） #}
+            <p class="text-1xl md:text-3xl font-extrabold italic tracking-wider mb-4">
+                可能性を広げる大学を
+            </p>
+
+            {# 入れ替え後：こちらを小さく薄く（補足情報） #}
+            <p class="mt-1 text-sm md:text-base text-gray-200 font-light opacity-80">
                 後楽園キャンパス 非公式ガイド
             </p>
         </div>
     </section>
 
-    {# 参考文献 #}
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-2 mb-8 text-right">
-        <p class="text-xs text-gray-500 italic">
-            Photo: <a href="https://chu-pick.jimdofree.com/2023/05/24/photo-library/" class="hover:underline">Chu-Pick!</a>
-        </p>
-    </div>
+    <div class="container mx-auto px-4 py-16 max-w-6xl">
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="max-w-2xl mx-auto mb-16">
-            <h2 class="text-center text-3xl font-bold text-gray-800 mb-8 italic">SEARCH</h2>
-            <form action="{% url 'campus_guide:search' %}" method="get" class="relative">
+        {# --- 2. 検索バー --- #}
+        <div class="max-w-2xl mx-auto mb-20 relative -mt-24 z-20">
+            <form action="{% url 'campus_guide:search' %}" method="get" class="relative shadow-2xl rounded-full">
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        {# 虫眼鏡アイコン #}
-                        <svg class="h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
+                    <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+                        <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                     </div>
                     <input type="text" name="keyword" 
-                           class="w-full p-4 pl-12 text-lg border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition" 
-                           placeholder="気になるキーワードを入力（例：バイト、研究室）">
-                    <button type="submit" class="absolute right-2 top-2 bottom-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 rounded-full font-bold transition">
+                           class="w-full py-5 pl-16 pr-32 text-lg border-0 rounded-full focus:ring-4 focus:ring-indigo-300 transition" 
+                           placeholder="キーワード検索（例：サークル、時間割）">
+                    <button type="submit" class="absolute right-2 top-2 bottom-2 bg-indigo-600 hover:bg-indigo-700 text-white px-8 rounded-full font-bold transition duration-200">
                         検索
                     </button>
                 </div>
             </form>
         </div>
-        <h2 class="text-center text-3xl font-bold text-gray-800 mb-12 italic">CATEGORY</h2>
 
-        {# カテゴリカード一覧 #}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for university in universities %}
-            <a href="{% url 'campus_guide:university_detail' university.id %}" class="group relative block w-full h-64 rounded-2xl overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
-                
-                {# 背景画像（画像がない場合はグラデーションを表示） #}
-                {% if university.image %}
-                    <img src="{{ university.image.url }}" alt="{{ university.name }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition"></div>
-                {% else %}
-                    {# ダミー画像（グラデーション） #}
-                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 transition duration-500 group-hover:scale-110"></div>
-                {% endif %}
-                
-                <div class="relative h-full flex flex-col justify-center items-center text-white p-6">
+        {# --- 3. カテゴリ一覧（旧University） --- #}
+        <div class="mb-24">
+            <h2 class="text-center text-3xl font-bold text-gray-800 mb-2 italic">PICK A CATEGORY</h2>
+            <p class="text-center text-gray-500 mb-10">興味のあるジャンルから記事を探そう！</p>
+
+            <div class="flex flex-wrap justify-center gap-6">
+            {% for category in categories %}
+            {# ↓↓ 幅（width）の指定を追加（w-full sm:w-[48%] lg:w-[30%]） ↓↓ #}
+            <a href="{% url 'campus_guide:university_detail' category.id %}" 
+               class="w-full sm:w-[48%] lg:w-[30%] group relative block h-48 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                     
-                    {# --- カテゴリバッジ表示エリア --- #}
-                    <div class="absolute top-4 right-4">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold shadow-sm
-                            {% if university.category.name == '受験生' %} bg-red-500 text-white
-                            {% elif university.category.name == '就活生' %} bg-blue-500 text-white
-                            {% elif university.category.name == '在学生' %} bg-green-500 text-white
-                            {% elif university.category.name == '全学年' %} bg-green-500 text-white
-                            {% else %} bg-gray-600 text-white {% endif %}">
-                            {{ university.category.name }}
-                        </span>
+                    {# 背景色エリア（DBに登録した色を使用） #}
+                    <div class="absolute inset-0 {{ category.color }} transition duration-500 opacity-90 group-hover:opacity-100"></div>
+                    
+                    {# 装飾用の大きな文字（背景） #}
+                    <div class="absolute -bottom-4 -right-4 text-9xl text-white opacity-10 font-black italic select-none">
+                        {{ forloop.counter }}
                     </div>
-                    {# ---------------------------- #}
 
-                    <h3 class="text-3xl font-bold italic tracking-widest">{{ university.name }}</h3>
-                    <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/20 px-4 py-1 rounded-full text-sm backdrop-blur-sm">
-                        記事を見る &rarr;
+                    <div class="relative h-full flex flex-col justify-center items-center text-white p-6">
+                        <h3 class="text-3xl font-bold tracking-widest drop-shadow-md">
+                            {{ category.name }}
+                        </h3>
+                        <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/20 px-6 py-1 rounded-full text-sm font-bold backdrop-blur-sm">
+                            View Articles &rarr;
+                        </div>
                     </div>
-                </div>
-            </a>
-            {% endfor %}
+                </a>
+                {% endfor %}
+            </div>
         </div>
+
+        {# --- 4. 団体ランキング（views.pyから渡された ranking_orgs） --- #}
+        <div>
+            <h2 class="text-center text-3xl font-bold text-gray-800 mb-2 italic">ACTIVE ORGANIZATIONS</h2>
+            <p class="text-center text-gray-500 mb-10">記事の多さ順にコミュニティをランキング化</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for org in ranking_orgs %}
+                <a href="{% url 'campus_guide:search' %}?keyword={{ org.name }}" 
+                   class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md hover:border-indigo-300 transition flex items-center justify-between group">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-xs font-bold px-2 py-1 rounded text-indigo-600 bg-indigo-50">
+                                {{ org.get_type_display }}
+                            </span>
+                            <span class="text-xs font-medium text-gray-400 flex items-center">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                                {{ org.num_posts }} 記事
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition">
+                            {{ org.name }}
+                        </h3>
+                        {% if org.professor %}
+                        <p class="text-sm text-gray-500 mt-1">教授: {{ org.professor }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="text-gray-300 group-hover:text-indigo-500 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </div>
+                </a>
+                {% empty %}
+                <p class="col-span-full text-center text-gray-400 py-8 bg-white rounded-lg border border-dashed">
+                    まだ記事が投稿されている団体がありません。
+                </p>
+                {% endfor %}
+            </div>
+        </div>
+
     </div>
 </div>
 {% endblock %}
