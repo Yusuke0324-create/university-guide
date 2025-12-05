@@ -83,7 +83,13 @@ class Blog(models.Model):
     def __str__(self):
         return self.title
 
+    # ↓↓↓ Blogクラスの中に追加 ↓↓↓
+    def save(self, *args, **kwargs):
+        if self.content:
+            self.content = self.content.replace('&nbsp;', ' ')
+        super().save(*args, **kwargs)
     class Meta:
         verbose_name = "ブログ記事"
         verbose_name_plural = "ブログ記事"
         ordering = ['-created_at']
+    
