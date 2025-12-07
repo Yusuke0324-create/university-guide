@@ -15,12 +15,10 @@
                 未来へ。
             </h1>
             
-            {# 入れ替え後：こちらを大きく（メインのサブタイトル） #}
             <p class="text-1xl md:text-3xl font-extrabold italic tracking-wider mb-4">
                 可能性を広げる大学を
             </p>
 
-            {# 入れ替え後：こちらを小さく薄く（補足情報） #}
             <p class="mt-1 text-sm md:text-base text-gray-200 font-light opacity-80">
                 後楽園キャンパス 非公式ガイド
             </p>
@@ -51,21 +49,55 @@
             <h2 class="text-center text-3xl font-bold text-gray-800 mb-2 italic">PICK A CATEGORY</h2>
             <p class="text-center text-gray-500 mb-10">興味のあるジャンルから記事を探そう！</p>
 
+            {# ↓↓↓↓↓ ここからスライドショー追加 ↓↓↓↓↓ #}
+            <div class="relative w-full max-w-4xl mx-auto h-64 md:h-96 rounded-2xl overflow-hidden shadow-xl mb-12 group bg-gray-200">
+                
+                {# スライド画像たち #}
+                {% for category in categories %}
+                <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out {% if not forloop.first %}opacity-0{% endif %}">
+                    {# 画像がある場合 #}
+                    {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}" class="w-full h-full object-cover">
+                    {# 画像がない場合（背景色で代用） #}
+                    {% else %}
+                        <div class="w-full h-full {{ category.color }} flex items-center justify-center">
+                            <span class="text-white text-4xl font-bold opacity-50">{{ category.name }}</span>
+                        </div>
+                    {% endif %}
+
+                    {# 画像の上の文字（オーバーレイ） #}
+                    <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-white p-4">
+                        <h3 class="text-4xl md:text-5xl font-bold italic tracking-widest mb-2 drop-shadow-lg">{{ category.name }}</h3>
+                        <a href="{% url 'campus_guide:university_detail' category.id %}" class="mt-4 px-6 py-2 border border-white rounded-full hover:bg-white hover:text-black transition duration-300 backdrop-blur-sm bg-white/10">
+                            記事を見る &rarr;
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {# インジケーター（下の点々） #}
+                <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 z-10">
+                    {% for category in categories %}
+                        <button onclick="goToSlide({{ forloop.counter0 }})" 
+                                class="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all duration-300 indicator-dot {% if forloop.first %}bg-white scale-125{% endif %}"
+                                aria-label="Slide {{ forloop.counter }}"></button>
+                    {% endfor %}
+                </div>
+            </div>
+            {# ↑↑↑↑↑ ここまでスライドショー ↑↑↑↑↑ #}
+
             <div class="flex flex-wrap justify-center gap-6">
             {% for category in categories %}
-            {# ↓↓ 幅（width）の指定を追加（w-full sm:w-[48%] lg:w-[30%]） ↓↓ #}
             <a href="{% url 'campus_guide:university_detail' category.id %}" 
                class="w-full sm:w-[48%] lg:w-[30%] group relative block h-48 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                     
                     {# 背景色エリア #}
                     <div class="absolute inset-0 {{ category.color }} transition duration-500 opacity-90 group-hover:opacity-100 z-0"></div>
                     
-                    {# --- ★ここを変更しました★ --- #}
                     {# 数字を左上に配置 #}
                     <div class="absolute -top-2 left-4 text-8xl text-white opacity-20 font-black italic select-none z-0">
                         {{ forloop.counter }}
                     </div>
-                    {# ------------------------- #}
 
                     <div class="relative h-full flex flex-col justify-center items-center text-white p-6 z-10">
                         <h3 class="text-3xl font-bold tracking-widest drop-shadow-md">
@@ -80,7 +112,7 @@
             </div>
         </div>
 
-        {# --- 4. 団体ランキング（画像を反映版） --- #}
+        {# --- 4. 団体ランキング --- #}
         <div>
             <h2 class="text-center text-3xl font-bold text-gray-800 mb-2 italic">ACTIVE ORGANIZATIONS</h2>
             <p class="text-center text-gray-500 mb-10">記事投稿が活発な研究室・団体をピックアップ</p>
@@ -90,13 +122,11 @@
                 <a href="{% url 'campus_guide:search' %}?keyword={{ org.name }}" 
                    class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md hover:border-indigo-300 transition flex items-center group">
                     
-                    {# --- 画像エリア（ここを追加！） --- #}
+                    {# --- 画像エリア --- #}
                     <div class="mr-4 flex-shrink-0">
                         {% if org.image %}
-                            {# 画像がある場合：丸く切り抜いて表示 #}
                             <img src="{{ org.image.url }}" alt="{{ org.name }}" class="w-16 h-16 rounded-full object-cover border border-gray-200">
                         {% else %}
-                            {# 画像がない場合：デフォルトのアイコンを表示 #}
                             <div class="w-16 h-16 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
                                 {% if org.type == 'lab' %}
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
@@ -106,7 +136,6 @@
                             </div>
                         {% endif %}
                     </div>
-                    {# --------------------------------- #}
 
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-1">
@@ -139,4 +168,57 @@
 
     </div>
 </div>
+
+{# ↓↓↓↓↓ JavaScript追加 ↓↓↓↓↓ #}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.indicator-dot');
+        let currentSlide = 0;
+        const slideInterval = 5000; // 5秒ごとに切り替え
+
+        // スライドを表示する関数
+        function showSlide(index) {
+            // 全てのスライドを非表示（透明）にする
+            slides.forEach(slide => slide.classList.add('opacity-0'));
+            dots.forEach(dot => {
+                dot.classList.remove('bg-white', 'scale-125');
+                dot.classList.add('bg-white/50');
+            });
+            
+            // 指定されたスライドだけ表示（不透明）にする
+            if(slides[index]) {
+                slides[index].classList.remove('opacity-0');
+            }
+            
+            // ドットの色を変える
+            if(dots[index]) {
+                dots[index].classList.remove('bg-white/50');
+                dots[index].classList.add('bg-white', 'scale-125');
+            }
+        }
+
+        // 次のスライドへ進む関数
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // 最初の表示
+        showSlide(0);
+
+        // 自動再生のタイマーセット
+        let slideTimer = setInterval(nextSlide, slideInterval);
+
+        // ドットをクリックした時の処理
+        window.goToSlide = function(index) {
+            currentSlide = index;
+            showSlide(currentSlide);
+            // タイマーをリセット（クリックした直後に勝手に切り替わらないように）
+            clearInterval(slideTimer);
+            slideTimer = setInterval(nextSlide, slideInterval);
+        }
+    });
+</script>
+
 {% endblock %}

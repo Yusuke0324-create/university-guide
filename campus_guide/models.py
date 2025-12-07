@@ -5,6 +5,7 @@ from django_ckeditor_5.fields import CKEditor5Field
 # 1. カテゴリ（タグ・ハッシュタグ）
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name="カテゴリ名")
+    image = models.ImageField(upload_to='category_images/', blank=True, null=True, verbose_name='スライド用画像')
     
     # バッジの色設定
     COLOR_CHOICES = [
@@ -33,6 +34,7 @@ class Category(models.Model):
         verbose_name = "カテゴリ"
         verbose_name_plural = "カテゴリ"
         ordering = ['order']  # 常にこの順番で表示する
+    
 
 
 # 2. 団体・組織（研究室やサークル）
