@@ -3,6 +3,8 @@ from django.views import generic
 from django.db.models import Q, Count
 # ★新しいモデルをインポート
 from .models import Category, Organization, Blog
+from .forms import CommentForm, SiteRequestForm # SiteRequestFormを追加
+
 
 # 1. トップページ
 # 1. トップページ
@@ -62,3 +64,17 @@ def search_view(request):
         'query': query,
         'results': results,
     })
+
+
+
+# 要望フォームを表示・保存するビュー
+def request_form_view(request):
+    if request.method == 'POST':
+        form = SiteRequestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'app_folder/request_done.html') # 送信完了画面へ
+    else:
+        form = SiteRequestForm()
+
+    return render(request, 'app_folder/request_form.html', {'form': form})

@@ -39,6 +39,17 @@
 
     <footer class="bg-white text-gray-600 mt-12 border-t border-gray-200">
         <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-sm">
+            
+            {# ↓↓↓ ここに追加：お問い合わせリンク ↓↓↓ #}
+            <div class="mb-6">
+                <a href="{% url 'campus_guide:site_request' %}" class="text-indigo-600 hover:text-indigo-800 font-bold transition hover:underline flex items-center justify-center gap-1">
+                    {# アイコン（手紙マーク）もつけておきました #}
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    ご要望・お問い合わせはこちら
+                </a>
+            </div>
+            {# ↑↑↑ ここまで ↑↑↑ #}
+
             <p>&copy; {% now "Y" %} Canvas Compass. All Rights Reserved.</p>
         </div>
     </footer>

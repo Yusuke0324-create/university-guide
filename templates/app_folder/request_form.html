@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}ご要望・お問い合わせ | Canvas Compass{% endblock %}
+
+{% block contents %}
+<div class="container mx-auto px-4 py-16 max-w-2xl">
+    <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">ご要望・お問い合わせ</h2>
+        <p class="text-center text-gray-500 mb-8">
+            サイトへのご意見、掲載依頼などお気軽にお送りください。<br>
+            より良いサイトにするために参考にさせていただきます。
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-6">
+                <label class="block text-sm font-bold text-gray-700 mb-2">お名前（任意）</label>
+                {{ form.name }}
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-bold text-gray-700 mb-2">メールアドレス（任意）</label>
+                {{ form.email }}
+                <p class="text-xs text-gray-400 mt-1">返信をご希望の場合は入力してください。</p>
+            </div>
+
+            <div class="mb-8">
+                <label class="block text-sm font-bold text-gray-700 mb-2">ご要望・お問い合わせ内容 <span class="text-red-500">*</span></label>
+                {{ form.content }}
+            </div>
+
+            <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl hover:bg-indigo-700 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                送信する
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

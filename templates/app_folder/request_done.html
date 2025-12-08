@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}送信完了 | Canvas Compass{% endblock %}
+
+{% block contents %}
+<div class="container mx-auto px-4 py-24 max-w-2xl text-center">
+    <div class="bg-white p-12 rounded-2xl shadow-lg border border-indigo-100">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">送信しました！</h2>
+        <p class="text-gray-600 mb-8">
+            貴重なご意見ありがとうございます。<br>
+            今後の運営の参考にさせていただきます。
+        </p>
+        <a href="{% url 'campus_guide:university_list' %}" class="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-full hover:bg-gray-700 transition"></a>
+            トップページに戻る
+        </a>
+    </div>
+</div>
+{% endblock %}

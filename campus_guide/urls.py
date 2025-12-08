@@ -16,4 +16,5 @@ urlpatterns = [
     
     # 検索
     path('search/', views.search_view, name='search'),
+    path('request/', views.request_form_view, name='site_request'),
 ]
