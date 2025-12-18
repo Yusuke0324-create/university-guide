@@ -32,18 +32,12 @@
                         # {{ category.name }}
                     </a>
                     {% endfor %}
-                    
-                    {# ↓↓↓ 日付部分をコメントアウト ↓↓↓ #}
-                    {# <div class="text-gray-400 text-sm font-medium ml-auto flex items-center"> #}
-                    {#    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> #}
-                    {#    {{ blog_post.created_at|date:"Y年m月d日" }} #}
-                    {# </div> #}
-                    {# ↑↑↑ ここまで ↑↑↑ #}
                 </div>
             </div>
 
             {# 本文エリア #}
             <div class="p-8 sm:p-12 prose prose-lg prose-indigo max-w-none text-gray-700 leading-relaxed">
+                {# ↓↓↓ ここを |safe に戻しました ↓↓↓ #}
                 {{ blog_post.content|safe }}
             </div>
 
@@ -53,7 +47,6 @@
                     Posted by <span class="text-gray-800">{{ blog_post.author.username }}</span>
                 </span>
                 
-                {# 所属団体があればもう一度リンクを表示 #}
                 {% if blog_post.organization %}
                 <div class="text-sm text-gray-500">
                     Category: {{ blog_post.organization.get_type_display }}
@@ -62,9 +55,6 @@
             </div>
         </article>
         
-        {# もしコメント機能のコードが消えてしまっている場合は、ここに追加してください #}
-        {# (前の手順で追加したコメント欄のコードがあれば、そのまま残しておいてください) #}
-
         <div class="text-center mt-12">
             <a href="javascript:history.back()" class="inline-flex items-center text-gray-500 hover:text-indigo-600 font-medium transition bg-white px-8 py-3 rounded-full shadow-sm hover:shadow hover:-translate-y-0.5 transform duration-200">
                 &larr; 前のページに戻る
