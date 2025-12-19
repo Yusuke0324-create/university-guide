@@ -5,8 +5,14 @@
     <meta charset="UTF-8">
     <title>{% block title %}Canvas Compass{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {# Tailwind CSS #}
-    {# 末尾にプラグインを追加 #}
+    
+    {# ↓↓↓ ★追加1：Googleサーチコンソールの所有権確認コード ★ ↓↓↓ #}
+    <meta name="google-site-verification" content="YyhaTgsuvUpq2jlQoIQrW9_5HFIW1nhn-pqqsWUAQBg" />
+
+    {# ↓↓↓ ★追加2：検索結果に表示されるサイトの説明文（SEO） ★ ↓↓↓ #}
+    <meta name="description" content="{% block description %}中央大学理工学部の学生による、授業・研究室・サークル情報などをまとめた非公式ガイドサイトです。在学生のリアルな情報を発信しています。{% endblock %}">
+
+    {# Tailwind CSS (ブログ記事の整形プラグイン付き) #}
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script>
         tailwind.config = {
@@ -97,8 +103,8 @@
                 <a href="https://churoom.com/" target="_blank" rel="noopener noreferrer" 
                    class="block px-3 py-2 rounded-md text-base font-bold text-indigo-600 hover:bg-indigo-50 flex items-center justify-between">
                     <span class="flex items-center">
-                        {# スマホ版にもアイコンを表示 #}
-                        <img src="{% static 'images/churoom_icon.jpg' %}" alt="Icon" class="w-8 h-8 mr-2 object-contain">
+                        {# スマホ版にもアイコンを表示（ファイル名を修正しました） #}
+                        <img src="{% static 'images/churoom.jpg' %}" alt="Icon" class="w-8 h-8 mr-2 object-contain">
                         在学生はこちら
                     </span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
