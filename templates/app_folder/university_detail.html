@@ -1,26 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{# ビューから送られてきた category 変数を使います #}
 {% block title %}{{ university.name }} | 記事一覧{% endblock %}
 
 {% block contents %}
 <div class="w-full bg-gray-50 min-h-screen py-12">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {# ヘッダー：選択されたカテゴリ名 #}
+        {# カテゴリヘッダー #}
         <div class="text-center mb-12">
             <span class="text-gray-400 font-bold tracking-widest uppercase text-sm">CATEGORY</span>
-            {# カテゴリの色を文字色に反映 #}
             <h1 class="text-4xl sm:text-5xl font-extrabold mt-2 mb-4 {{ university.color|cut:'bg-'|add:'text-' }}">
                 {{ university.name }}
             </h1>
             <p class="text-gray-500 text-lg">「{{ university.name }}」タグがついた記事一覧</p>
         </div>
 
-        {# --- ★ここが修正ポイント！記事一覧 --- #}
+        {# 記事一覧リスト #}
         <div class="space-y-6">
-            {# ビューから渡された 'blogs' を直接ループします #}
             {% for blog in blogs %}
             <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition duration-300">
                 <a href="{% url 'campus_guide:blog_post_detail' blog.pk %}" class="block p-6 sm:p-8">
@@ -28,13 +25,9 @@
                         <h3 class="text-2xl font-bold text-gray-800 hover:text-indigo-600 transition line-clamp-2">
                             {{ blog.title }}
                         </h3>
-                        {# <span class="text-xs font-medium text-gray-400 whitespace-nowrap ml-4 mt-2"> #}
-                            {# {{ blog.created_at|date:"Y.m.d" }} #}
-                        {# </span> #}
-                        
                     </div>
                     
-                    {# 関連団体があれば表示 #}
+                    {# 関連団体タグ #}
                     {% if blog.organization %}
                     <div class="mb-4">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
@@ -44,8 +37,8 @@
                     </div>
                     {% endif %}
 
+                    {# 本文プレビュー #}
                     <div class="text-gray-600 leading-relaxed line-clamp-3 mb-4 text-sm">
-                        {# 本文のプレビュー #}
                         {{ blog.content|striptags }}
                     </div>
 
@@ -55,7 +48,7 @@
                 </a>
             </article>
             {% empty %}
-                {# 記事が1つもない場合 #}
+                {# 空の状態 #}
                 <div class="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-gray-200">
                     <p class="text-gray-500 font-medium text-lg">まだこのカテゴリの記事はありません。</p>
                     <p class="text-gray-400 text-sm mt-2">最初の記事を投稿してみましょう！</p>
@@ -63,6 +56,7 @@
             {% endfor %}
         </div>
 
+        {# 戻るボタン #}
         <div class="text-center mt-16">
             <a href="{% url 'campus_guide:university_list' %}" class="inline-flex items-center text-gray-500 hover:text-indigo-600 font-medium transition bg-white px-6 py-3 rounded-full shadow-sm hover:shadow">
                 &larr; トップに戻る
