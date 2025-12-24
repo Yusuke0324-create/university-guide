@@ -22,6 +22,8 @@ ALLOWED_HOSTS = [
     'university-guide.onrender.com',
     '127.0.0.1',
     'localhost',
+    'canvas-compass.net',      
+    'www.canvas-compass.net',  
 ]
 
 
@@ -175,3 +177,10 @@ if IS_PRODUCTION:
 
 # サイトID（Sitemap用）
 SITE_ID = 1
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://university-guide.onrender.com',
+    'https://canvas-compass.net',
+    'https://www.canvas-compass.net',
+]
