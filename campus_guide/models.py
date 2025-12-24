@@ -2,12 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from django_ckeditor_5.fields import CKEditor5Field
 
-# 1. カテゴリ（タグ・ハッシュタグ）
+
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name="カテゴリ名")
     image = models.ImageField(upload_to='category_images/', blank=True, null=True, verbose_name='スライド用画像')
     
-    # バッジの色設定
+    #バッジの色設定
     COLOR_CHOICES = [
         ('bg-red-500', '赤（入試・重要）'),
         ('bg-blue-500', '青（就職・将来）'),
@@ -24,7 +24,7 @@ class Category(models.Model):
         verbose_name="バッジの色"
     )
     
-    # 表示順（1:遊び, 2:学問... と並べるため）
+    
     order = models.IntegerField(default=0, verbose_name="表示順")
 
     def __str__(self):
@@ -33,15 +33,14 @@ class Category(models.Model):
     class Meta:
         verbose_name = "カテゴリ"
         verbose_name_plural = "カテゴリ"
-        ordering = ['order']  # 常にこの順番で表示する
-    
+        ordering = ['order']
 
 
-# 2. 団体・組織（研究室やサークル）
+
 class Organization(models.Model):
     name = models.CharField(max_length=100, verbose_name="団体名")
     
-    # 団体の種類
+    
     TYPE_CHOICES = [
         ('lab', '研究室'),
         ('circle', 'サークル・部活'),
@@ -51,13 +50,12 @@ class Organization(models.Model):
     ]
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='lab', verbose_name="種類")
     
-    # 教授名（研究室用）
     professor = models.CharField(max_length=100, blank=True, verbose_name="教授名")
     
-    # 説明文
+    
     description = models.TextField(blank=True, verbose_name="紹介文")
     
-    # 画像
+    
     image = models.ImageField(upload_to='org_images/', null=True, blank=True, verbose_name="画像")
 
     def __str__(self):
@@ -68,7 +66,7 @@ class Organization(models.Model):
         verbose_name_plural = "団体・組織"
 
 
-# 3. ブログ記事
+
 class Blog(models.Model):
     title = models.CharField(max_length=200, verbose_name="タイトル")
     content = CKEditor5Field(config_name='extends', blank=True, null=True, verbose_name="本文")
@@ -76,16 +74,22 @@ class Blog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="作成日")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="更新日")
     
-    # ★複数選択OKのカテゴリ（タグ）
+    #複数選択OK
     categories = models.ManyToManyField(Category, related_name='blogs', verbose_name="カテゴリ")
     
-    # ★所属団体（なくてもOK）
+    #所属団体
     organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="関連団体")
+    #優先度
+    priority = models.IntegerField(
+        default=0,
+        verbose_name="表示優先度",
+        help_text="数字が大きいほど上に表示されます（例：100=最重要, 0=普通）"
+    )
 
     def __str__(self):
         return self.title
 
-    # ↓↓↓ Blogクラスの中に追加 ↓↓↓
+    
     def save(self, *args, **kwargs):
         if self.content:
             self.content = self.content.replace('&nbsp;', ' ')
@@ -93,7 +97,7 @@ class Blog(models.Model):
     class Meta:
         verbose_name = "ブログ記事"
         verbose_name_plural = "ブログ記事"
-        ordering = ['-created_at']
+        ordering = ['-priority', '-created_at']
 
 class Comment(models.Model):
     post = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
