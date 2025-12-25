@@ -118,7 +118,7 @@ class SiteRequest(models.Model):
     email = models.EmailField('メールアドレス', blank=True, null=True, help_text="返信が必要な場合は入力してください")
     content = models.TextField('ご要望・お問い合わせ内容')
     created_at = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField('既読', default=False) # 管理者が読んだかどうかのチェック用
+    is_read = models.BooleanField('既読', default=False) #管理者が読んだかどうかのチェック用
 
     def __str__(self):
         return f"要望: {self.content[:20]}..."
