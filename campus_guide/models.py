@@ -85,6 +85,8 @@ class Blog(models.Model):
         verbose_name="表示優先度",
         help_text="数字が大きいほど上に表示されます（例：100=最重要, 0=普通）"
     )
+    #閲覧数カウント
+    views = models.PositiveIntegerField(default=0, verbose_name='閲覧数')
 
     def __str__(self):
         return self.title
