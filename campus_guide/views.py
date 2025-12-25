@@ -4,7 +4,7 @@ from django.db.models import Q, Count
 from .models import Category, Organization, Blog
 from .forms import CommentForm, SiteRequestForm
 
-# トップページ
+#トップページ
 class TopPage(generic.ListView):
     model = Category
     template_name = 'app_folder/university_list.html'
@@ -16,17 +16,17 @@ class TopPage(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # 人気記事ランキング
+        #人気記事ランキング
         context['ranking_blogs'] = Blog.objects.order_by('-views')[:5]
         
-        # 団体ランキング
+        #団体ランキング
         context['ranking_orgs'] = Organization.objects.annotate(
             num_posts=Count('blog')
         ).order_by('-num_posts')[:6]
         
         return context
 
-# カテゴリ詳細ページ
+#カテゴリ詳細ページ
 def category_detail(request, pk):
     category = get_object_or_404(Category, pk=pk)
     blogs = category.blogs.all().order_by('-priority', '-created_at')
@@ -36,7 +36,7 @@ def category_detail(request, pk):
         'blogs': blogs,
     })
 
-# 記事詳細ページ
+#記事詳細ページ
 class BlogPostDetailView(generic.DetailView):
     model = Blog
     template_name = 'app_folder/blog_post_detail.html'
@@ -48,7 +48,18 @@ class BlogPostDetailView(generic.DetailView):
         obj.save()
         return obj
 
-# 検索機能
+#団体詳細ページ
+def organization_detail(request, pk):
+    organization = get_object_or_404(Organization, pk=pk)
+    #その団体に関連する記事を取得
+    blogs = Blog.objects.filter(organization=organization).order_by('-priority', '-created_at')
+    
+    return render(request, 'app_folder/organization_detail.html', {
+        'organization': organization,
+        'blogs': blogs,
+    })
+
+#検索機能
 def search_view(request):
     query = request.GET.get('keyword')
     results = []
@@ -65,7 +76,7 @@ def search_view(request):
         'results': results,
     })
 
-# 要望フォーム
+#要望フォーム
 def request_form_view(request):
     if request.method == 'POST':
         form = SiteRequestForm(request.POST)

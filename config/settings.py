@@ -3,31 +3,31 @@ from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
 
-# 環境変数読み込み
+#環境変数読み込み
 load_dotenv()
 
-# 基本設定
+#基本設定
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# 環境判定
+#環境判定
 IS_PRODUCTION = 'RENDER' in os.environ
 if IS_PRODUCTION:
     DEBUG = False
 else:
     DEBUG = True
 
-# 許可ホスト
+#許可ホスト
 ALLOWED_HOSTS = [
     'university-guide.onrender.com',
     '127.0.0.1',
     'localhost',
-    'canvas-compass.net',      
-    'www.canvas-compass.net',  
+    'canvas-compass.net',
+    'www.canvas-compass.net',
 ]
 
 
-# アプリケーション定義
+#アプリケーション定義
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -35,18 +35,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # サイトマップ用設定
+    #サイトマップ用設定
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    # 独自アプリケーション
+    #独自アプリケーション
     'campus_guide.apps.CampusGuideConfig',
-    # サードパーティ
+    #サードパーティ
     'bootstrap4',
     'django_ckeditor_5',
 ]
 
 
-# ミドルウェア
+#ミドルウェア
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -59,11 +59,11 @@ MIDDLEWARE = [
 ]
 
 
-# URL設定
+#URL設定
 ROOT_URLCONF = 'config.urls'
 
 
-# テンプレート
+#テンプレート
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -81,11 +81,11 @@ TEMPLATES = [
 ]
 
 
-# WSGI
+#WSGI
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# データベース
+#データベース
 DATABASES = {
     'default': dj_database_url.config(
         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
@@ -95,7 +95,7 @@ DATABASES = {
 }
 
 
-# パスワード検証
+#パスワード検証
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -104,30 +104,30 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# 言語・タイムゾーン
+#言語・タイムゾーン
 LANGUAGE_CODE = 'ja'
 TIME_ZONE = 'Asia/Tokyo'
 USE_I18N = True
 USE_TZ = True
 
 
-# 静的ファイル
+#静的ファイル
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# メディアファイル
+#メディアファイル
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/var/data/media' if IS_PRODUCTION else BASE_DIR / 'media'
 
 
-# 主キー設定
+#主キー設定
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# CKEditor設定
+#CKEditor設定
 CKEDITOR_5_UPLOAD_PATH = "uploads/ckeditor5/"
 CKEDITOR_5_CONFIGS = {
     'default': {
@@ -166,7 +166,7 @@ CKEDITOR_5_CONFIGS = {
 }
 
 
-# セキュリティ設定（本番環境）
+#セキュリティ設定（本番環境）
 if IS_PRODUCTION:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
@@ -175,7 +175,7 @@ if IS_PRODUCTION:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
-# サイトID（Sitemap用）
+#サイトID（Sitemap用）
 SITE_ID = 1
 
 

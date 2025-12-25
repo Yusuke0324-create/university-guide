@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}「{{ query }}」の検索結果{% endblock %}
 
 {% block contents %}
@@ -19,7 +18,8 @@
     <div class="space-y-8">
         {% for blog in results %}
         <article class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 border border-gray-100">
-            <a href="{% url 'campus_guide:blog_post_detail' blog.pk %}" class="block p-6 sm:p-8">
+            {#記事詳細リンク#}
+            <a href="{% url 'campus_guide:blog_detail' blog.pk %}" class="block p-6 sm:p-8">
                 <div class="flex justify-between items-start mb-2">
                     <h3 class="text-xl font-bold text-gray-800 hover:text-indigo-600 transition">
                         {{ blog.title }}
@@ -29,11 +29,15 @@
                     </span>
                 </div>
                 
+                {#団体名タグ#}
+                {% if blog.organization %}
                 <div class="mb-4">
-                    <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
-                        {{ blog.campus.university.name }}
+                    <span class="bg-indigo-50 text-indigo-600 text-xs px-2 py-1 rounded font-bold">
+                        {{ blog.organization.name }}
                     </span>
                 </div>
+                {% endif %}
+
                 <div class="text-gray-600 text-sm line-clamp-2">
                     {{ blog.content|striptags }}
                 </div>

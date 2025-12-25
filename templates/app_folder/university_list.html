@@ -6,7 +6,7 @@
 {% block contents %}
 <div class="w-full bg-gray-50">
 
-    {# 1. ヒーローセクション #}
+    {#ヒーローセクション#}
     <section class="relative w-full h-[50vh] flex items-center justify-center text-white" 
              style="background-image: url('{% static 'images/kourakuen_koishikawa.jpg' %}'); background-size: cover; background-position: center;">
         <div class="absolute inset-0 bg-black/60"></div>
@@ -24,7 +24,7 @@
             </p>
         </div>
 
-        {# 画像参照元 #}
+        {#画像参照元#}
         <div class="absolute bottom-2 right-4 z-20 text-xs text-gray-400 opacity-70">
             Image by <a href="#" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">文京区 (参照元)</a>
         </div>
@@ -32,7 +32,7 @@
 
     <div class="container mx-auto px-4 py-16 max-w-6xl">
 
-        {# 2. 検索バー #}
+        {#検索バー#}
         <div class="max-w-2xl mx-auto mb-20 relative -mt-24 z-20">
             <form action="{% url 'campus_guide:search' %}" method="get" class="relative shadow-2xl rounded-full">
                 <div class="relative">
@@ -49,7 +49,7 @@
             </form>
         </div>
 
-        {# 3. サイト紹介 #}
+        {#サイト紹介#}
         <div class="max-w-3xl mx-auto mb-24 text-center">
             <span class="text-indigo-600 font-bold tracking-widest uppercase">ABOUT CANVAS COMPASS</span>
             <h2 class="text-3xl font-bold text-gray-900 mt-3 mb-6">
@@ -62,17 +62,17 @@
             </p>
         </div>
 
-        {# ■ 4. カテゴリ＆ランキングの2分割セクション (ここを入れ替えました！) ■ #}
+        {#カテゴリ＆ランキングセクション#}
         <div class="mb-24">
             <h2 class="text-center text-3xl font-bold text-gray-800 mb-2 italic">PICK A CATEGORY & RANKING</h2>
             <p class="text-center text-gray-500 mb-10">ジャンルで探す？ それとも人気記事？</p>
 
             <div class="flex flex-col lg:flex-row gap-8 items-start">
                 
-                {# === 左側 (2/3)：カテゴリ（スライドショーとパネル） === #}
+                {#左側カテゴリ#}
                 <div class="w-full lg:w-2/3">
                     
-                    {# スライドショー #}
+                    {#スライドショー#}
                     <div class="relative w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-xl mb-8 group bg-gray-200">
                         {% for category in categories %}
                         <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out {% if not forloop.first %}opacity-0{% endif %}">
@@ -92,7 +92,7 @@
                         </div>
                         {% endfor %}
                         
-                        {# インジケーター #}
+                        {#インジケーター#}
                         <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 z-10">
                             {% for category in categories %}
                                 <button onclick="goToSlide({{ forloop.counter0 }})" 
@@ -101,7 +101,7 @@
                         </div>
                     </div>
 
-                    {# カテゴリパネル（少し小さめに表示） #}
+                    {#カテゴリパネル#}
                     <div class="grid grid-cols-2 gap-4">
                         {% for category in categories %}
                         <a href="{% url 'campus_guide:university_detail' category.id %}" 
@@ -117,7 +117,7 @@
                     </div>
                 </div>
 
-                {# === 右側 (1/3)：人気記事ランキング === #}
+                {#右側ランキング#}
                 <div class="w-full lg:w-1/3 sticky top-4">
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
@@ -131,7 +131,7 @@
                             {% for blog in ranking_blogs %}
                             <a href="{% url 'campus_guide:blog_detail' blog.pk %}" class="block p-4 hover:bg-indigo-50/50 transition group">
                                 <div class="flex items-start gap-3">
-                                    {# 順位 #}
+                                    {#順位#}
                                     <div class="flex-shrink-0 w-6 text-center">
                                         {% if forloop.counter <= 3 %}
                                             <span class="text-xl font-black italic text-indigo-400 group-hover:text-indigo-600">
@@ -144,7 +144,7 @@
                                         {% endif %}
                                     </div>
                                     
-                                    {# 記事情報 #}
+                                    {#記事情報#}
                                     <div>
                                         <h4 class="text-sm font-bold text-gray-700 leading-snug group-hover:text-indigo-600 mb-1 line-clamp-2">
                                             {{ blog.title }}
@@ -162,7 +162,7 @@
                             {% endfor %}
                         </div>
                         
-                        {# もっと見るリンク（任意） #}
+                        {#もっと見るリンク#}
                         <div class="bg-gray-50 p-3 text-center border-t border-gray-100">
                             <span class="text-xs text-gray-400">Updated just now</span>
                         </div>
@@ -172,14 +172,15 @@
             </div>
         </div>
 
-        {# 5. 団体ランキング #}
+        {#団体ランキング#}
         <div>
             <h2 class="text-center text-3xl font-bold text-gray-800 mb-2 italic">ACTIVE ORGANIZATIONS</h2>
             <p class="text-center text-gray-500 mb-10">記事投稿が活発な研究室・団体をピックアップ</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for org in ranking_orgs %}
-                <a href="{% url 'campus_guide:search' %}?keyword={{ org.name }}" 
+                {#リンク先を検索から団体詳細ページへ修正#}
+                <a href="{% url 'campus_guide:organization_detail' org.pk %}" 
                    class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md hover:border-indigo-300 transition flex items-center group">
                     <div class="mr-4 flex-shrink-0">
                         {% if org.image %}
@@ -218,8 +219,7 @@
     </div>
 </div>
 
-{# カルーセル用スクリプト #}
-{# カルーセル用スクリプト #}
+{#カルーセル用スクリプト#}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const slides = document.querySelectorAll('.carousel-slide');
