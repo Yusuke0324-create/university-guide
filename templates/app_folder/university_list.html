@@ -219,6 +219,7 @@
 </div>
 
 {# カルーセル用スクリプト #}
+{# カルーセル用スクリプト #}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const slides = document.querySelectorAll('.carousel-slide');
@@ -227,14 +228,27 @@
         const slideInterval = 5000;
 
         function showSlide(index) {
-            slides.forEach(slide => slide.classList.add('opacity-0'));
+            // 一旦すべてリセット
+            slides.forEach(slide => {
+                slide.classList.add('opacity-0');       // 透明にする
+                slide.classList.remove('z-10');         // 手前からどかす
+                slide.classList.add('z-0');             // 奥にやる
+                slide.style.pointerEvents = 'none';     // クリックできないようにする
+            });
+            
             dots.forEach(dot => {
                 dot.classList.remove('bg-white', 'scale-125');
                 dot.classList.add('bg-white/50');
             });
+
+            // 選ばれたスライドだけ表示
             if(slides[index]) {
                 slides[index].classList.remove('opacity-0');
+                slides[index].classList.remove('z-0');
+                slides[index].classList.add('z-10');        // ★一番手前に持ってくる
+                slides[index].style.pointerEvents = 'auto'; // ★クリックできるようにする
             }
+
             if(dots[index]) {
                 dots[index].classList.remove('bg-white/50');
                 dots[index].classList.add('bg-white', 'scale-125');
@@ -247,7 +261,7 @@
         }
 
         if(slides.length > 0) {
-            showSlide(0);
+            showSlide(0); // 初期表示
             let slideTimer = setInterval(nextSlide, slideInterval);
 
             window.goToSlide = function(index) {
