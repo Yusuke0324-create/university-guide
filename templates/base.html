@@ -67,7 +67,7 @@
                 
                 {# ロゴ・左側エリア #}
                 <div class="flex items-center">
-                    <a href="{% url 'campus_guide:university_list' %}" class="flex-shrink-0 flex items-center gap-2 group mr-6">
+                    <a href="{% url 'campus_guide:category_list' %}" class="flex-shrink-0 flex items-center gap-2 group mr-6">
                         <span class="text-2xl font-bold tracking-wider italic text-gray-800 group-hover:text-indigo-600 transition">
                             Canvas Compass
                         </span>
@@ -87,7 +87,7 @@
                 {# 右側エリア #}
                 <div class="flex items-center gap-4">
                     {# PC用メニューボタン #}
-                    <a href="{% url 'campus_guide:university_list' %}" class="hidden md:inline-block px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors duration-200">
+                    <a href="{% url 'campus_guide:category_list' %}" class="hidden md:inline-block px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors duration-200">
                         ホームへ
                     </a>
 
@@ -109,7 +109,7 @@
         {# スマホ用メニュー #}
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="{% url 'campus_guide:university_list' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                <a href="{% url 'campus_guide:category_list' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
                     ホーム
                 </a>
                 

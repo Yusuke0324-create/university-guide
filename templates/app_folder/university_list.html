@@ -85,7 +85,7 @@
                             {% endif %}
                             <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-white p-4">
                                 <h3 class="text-3xl md:text-4xl font-bold italic tracking-widest mb-2 drop-shadow-lg">{{ category.name }}</h3>
-                                <a href="{% url 'campus_guide:university_detail' category.id %}" class="mt-2 px-6 py-2 border border-white rounded-full hover:bg-white hover:text-black transition duration-300 backdrop-blur-sm bg-white/10 text-sm">
+                                <a href="{% url 'campus_guide:category_detail' category.id %}" class="mt-2 px-6 py-2 border border-white rounded-full hover:bg-white hover:text-black transition duration-300 backdrop-blur-sm bg-white/10 text-sm">
                                     記事を見る &rarr;
                                 </a>
                             </div>
@@ -104,7 +104,7 @@
                     {#カテゴリパネル#}
                     <div class="grid grid-cols-2 gap-4">
                         {% for category in categories %}
-                        <a href="{% url 'campus_guide:university_detail' category.id %}" 
+                        <a href="{% url 'campus_guide:category_detail' category.id %}" 
                            class="group relative block h-32 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                             <div class="absolute inset-0 {{ category.color }} transition duration-500 opacity-90 group-hover:opacity-100"></div>
                             <div class="relative h-full flex flex-col justify-center items-center text-white p-2">

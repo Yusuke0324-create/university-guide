@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ campus.name }} | {{ campus.university.name }}{% endblock %}
+{% block title %}{{ campus.name }} | {{ campus.category.name }}{% endblock %}
 
 {% block contents %}
 <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -10,11 +10,11 @@
     {# ヘッダ #}
     <div class="bg-white rounded-2xl shadow-lg p-8 mb-12">
         <h1 class="text-3xl font-bold text-gray-800 mb-2 text-center italic">{{ campus.name }}</h1>
-        <p class="text-lg text-gray-600 text-center mb-6 italic">{{ campus.university.name }}</p>
+        <p class="text-lg text-gray-600 text-center mb-6 italic">{{ campus.category.name }}</p>
         {% if campus.image %}
             <img src="{{ campus.image.url }}" alt="{{ campus.name }}" class="w-full h-64 object-cover rounded-lg shadow-md mx-auto max-w-lg">
-        {% elif campus.university.image %}
-             <img src="{{ campus.university.image.url }}" alt="{{ campus.university.name }}" class="w-full h-64 object-cover rounded-lg shadow-md mx-auto max-w-lg">
+        {% elif campus.category.image %}
+             <img src="{{ campus.category.image.url }}" alt="{{ campus.category.name }}" class="w-full h-64 object-cover rounded-lg shadow-md mx-auto max-w-lg">
         {% endif %}
     </div>
 
@@ -45,8 +45,8 @@
     </div>
 
     <div class="text-center mt-12">
-        <a href="{% url 'campus_guide:university_detail' campus.university.pk %}" class="text-indigo-600 hover:text-indigo-800 font-semibold transition">
-            &larr; {{ campus.university.name }}のキャンパス一覧に戻る
+        <a href="{% url 'campus_guide:category_detail' campus.category.pk %}" class="text-indigo-600 hover:text-indigo-800 font-semibold transition">
+            &larr; {{ campus.category.name }}のキャンパス一覧に戻る
         </a>
     </div>
 

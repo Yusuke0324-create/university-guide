@@ -28,7 +28,7 @@
                 {# カテゴリタグ #}
                 <div class="flex flex-wrap items-center gap-4">
                     {% for category in blog_post.categories.all %}
-                    <a href="{% url 'campus_guide:university_detail' category.id %}" 
+                    <a href="{% url 'campus_guide:category_detail' category.id %}" 
                        class="px-3 py-1 rounded-full text-sm font-bold text-white {{ category.color }} hover:opacity-80 transition shadow-sm">
                         # {{ category.name }}
                     </a>

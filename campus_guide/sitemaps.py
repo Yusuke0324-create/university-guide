@@ -6,7 +6,7 @@ class StaticViewSitemap(Sitemap):
     priority = 1.0
     changefreq = 'daily'
     def items(self):
-        return ['campus_guide:university_list', 'campus_guide:search', 'campus_guide:site_request']
+        return ['campus_guide:category_list', 'campus_guide:search', 'campus_guide:site_request']
     def location(self, item):
         return reverse(item)
 
@@ -28,10 +28,10 @@ class OrganizationSitemap(Sitemap):
     def location(self, obj):
         return reverse('campus_guide:organization_detail', args=[obj.pk])
 
-# class CategorySitemap(Sitemap):
-#     changefreq = 'weekly'
-#     priority = 0.7
-#     def items(self):
-#         return Category.objects.all()
-#     def location(self, obj):
-#         return reverse('campus_guide:university_detail', args=[obj.pk])
+class CategorySitemap(Sitemap):
+    changefreq = 'weekly'
+    priority = 0.7
+    def items(self):
+        return Category.objects.all()
+    def location(self, obj):
+        return reverse('campus_guide:category_detail', args=[obj.pk])

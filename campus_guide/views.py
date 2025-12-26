@@ -32,7 +32,7 @@ def category_detail(request, pk):
     blogs = category.blogs.all().order_by('-priority', '-created_at')
     
     return render(request, 'app_folder/university_detail.html', {
-        'university': category,
+        'category': category,
         'blogs': blogs,
     })
 
@@ -61,17 +61,17 @@ def organization_detail(request, pk):
 
 #検索機能
 def search_view(request):
-    query = request.GET.get('keyword')
+    query = request.GET.get('keyword')#入力フォームからの検索キーワード受け取り
     results = []
 
     if query:
         results = Blog.objects.filter(
-            Q(title__icontains=query) | 
-            Q(content__icontains=query) |
-            Q(organization__name__icontains=query)
+            Q(title__icontains=query) | #タイトルにキーワードが含まれているか
+            Q(content__icontains=query) |#記事内容
+            Q(organization__name__icontains=query)#団体名
         ).distinct().order_by('-priority', '-created_at')
 
-    return render(request, 'app_folder/search_results.html', {
+    return render(request, 'app_folder/search_results.html', {#return render(受け取った第一引数,表示させたいHTML,渡したい変数)
         'query': query,
         'results': results,
     })
