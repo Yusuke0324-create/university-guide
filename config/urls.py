@@ -5,13 +5,12 @@ from django.conf import settings
 from django.views.static import serve
 from django.contrib.sitemaps.views import sitemap
 
-from campus_guide.sitemaps import StaticViewSitemap, BlogSitemap, OrganizationSitemap, CategorySitemap
-
+from campus_guide.sitemaps import StaticViewSitemap, BlogSitemap, OrganizationSitemap
 sitemaps = {
     'static': StaticViewSitemap,
     'blog': BlogSitemap,
     'organization': OrganizationSitemap,
-    'category': CategorySitemap,
+   # 'category': CategorySitemap,
 }
 
 urlpatterns = [
