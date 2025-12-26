@@ -7,11 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     {# Google Search Console #}
-    <meta name="google-site-verification" content="YyhaTgsuvUpq2jlQoIQrW9_5HFIW1nhn-pqqsWUAQBg" />
-
+    <meta name="google-site-verification" content="NXE0GMM26FYYagl_Xm77SWt8V60UTfaZlzrOxuvv-QM" />
     {# SEO #}
     <meta name="description" content="{% block description %}中央大学理工学部の学生による、授業・研究室・サークル情報などをまとめた非公式ガイドサイトです。在学生のリアルな情報を発信しています。{% endblock %}">
-
+    <meta property="og:title" content="{% block og_title %}{% block title %}Canvas Compass{% endblock %}{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}{% block description %}中央大学理工学部の学生による非公式ガイドサイト{% endblock %}{% endblock %}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/kourakuen_koishikawa.jpg' %}{% endblock %}" />
+    <meta property="og:site_name" content="Canvas Compass" />
+    <meta name="twitter:card" content="summary_large_image" />
     {# 構造化データ #}
     <script type="application/ld+json">
     {
