@@ -8,17 +8,21 @@
     
     {# Google Search Console #}
     <meta name="google-site-verification" content="NXE0GMM26FYYagl_Xm77SWt8V60UTfaZlzrOxuvv-QM" />
-
     {# SEO #}
     <meta name="description" content="{% block description %}中央大学理工学部の学生による、授業・研究室・サークル情報などをまとめた非公式ガイドサイトです。在学生のリアルな情報を発信しています。{% endblock %}">
-    <meta property="og:title" content="{% block og_title %}{% block title %}Canvas Compass{% endblock %}{% endblock %}" />
-    <meta property="og:description" content="{% block og_description %}{% block description %}中央大学理工学部の学生による非公式ガイドサイト{% endblock %}{% endblock %}" />
+    
+    
+    
+    <meta property="og:title" content="{% block og_title %}Canvas Compass{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}中央大学理工学部の学生による非公式ガイドサイト{% endblock %}" />
+    
+    
+    
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ request.build_absolute_uri }}" />
     <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/kourakuen_koishikawa.jpg' %}{% endblock %}" />
     <meta property="og:site_name" content="Canvas Compass" />
     <meta name="twitter:card" content="summary_large_image" />
-
     {# 構造化データ #}
     <script type="application/ld+json">
     {
@@ -82,14 +86,17 @@
 
                 {# 右側エリア #}
                 <div class="flex items-center gap-4">
+                    {# PC用メニューボタン #}
                     <a href="{% url 'campus_guide:university_list' %}" class="hidden md:inline-block px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors duration-200">
                         ホームへ
                     </a>
 
+                    {# 検索ボタン #}
                     <a href="{% url 'campus_guide:search' %}" class="text-gray-400 hover:text-indigo-600 transition p-2">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </a>
 
+                    {# スマホ用メニューボタン #}
                     <div class="md:hidden flex items-center">
                         <button id="mobile-menu-button" class="text-gray-500 hover:text-gray-800 focus:outline-none p-2">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -132,24 +139,6 @@
     <footer class="bg-white text-gray-600 mt-12 border-t border-gray-200">
         <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-sm">
             <div class="mb-6">
+                {# お問い合わせリンク #}
                 <a href="{% url 'campus_guide:site_request' %}" class="text-indigo-600 hover:text-indigo-800 font-bold transition hover:underline flex items-center justify-center gap-1">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2"></path></svg>
-                    掲載依頼・お問い合わせはこちら
-                </a>
-            </div>
-            <p>&copy; 2024 Canvas Compass - 中央大学理工学部 非公式ガイド</p>
-        </div>
-    </footer>
-
-    {# スマホメニュー開閉用スクリプト #}
-    <script>
-        const btn = document.getElementById('mobile-menu-button');
-        const menu = document.getElementById('mobile-menu');
-        if (btn && menu) {
-            btn.addEventListener('click', () => {
-                menu.classList.toggle('hidden');
-            });
-        }
-    </script>
-</body>
-</html>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2
