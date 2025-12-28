@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 #ミドルウェア
 MIDDLEWARE = [
+    'config.settings.redirect_to_custom_domain', 
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -188,7 +189,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 
-from django.shortcuts import redirect
+
 
 def redirect_to_custom_domain(get_response):
     def middleware(request):
