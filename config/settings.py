@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
+from django.shortcuts import redirect
 
 #環境変数読み込み
 load_dotenv()
@@ -184,3 +185,15 @@ CSRF_TRUSTED_ORIGINS = [
     'https://canvas-compass.net',
     'https://www.canvas-compass.net',
 ]
+
+
+
+from django.shortcuts import redirect
+
+def redirect_to_custom_domain(get_response):
+    def middleware(request):
+        host = request.get_host()
+        if 'onrender.com' in host:
+            return redirect(f'https://canvas-compass.net{request.path}', permanent=True)
+        return get_response(request)
+    return middleware
