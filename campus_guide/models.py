@@ -5,8 +5,10 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name="カテゴリ名")
+
+    #　　　　　　　　画像を扱う　　　　↓画像の時は自動でMEDIA_ROOT/category_imagesみたいにMEDIA_ROOTの続きにつく
     image = models.ImageField(upload_to='category_images/', blank=True, null=True, verbose_name='スライド用画像')
-    
+    #                                                          ↑画像は空っぽでもOK
     #バッジの色設定
     COLOR_CHOICES = [
         ('bg-red-500', '赤（入試・重要）'),
@@ -27,13 +29,15 @@ class Category(models.Model):
     
     order = models.IntegerField(default=0, verbose_name="表示順")
 
+
+#管理画面でカテゴリ名をname変数として表示する
     def __str__(self):
         return self.name
 
-    class Meta:
-        verbose_name = "カテゴリ"
-        verbose_name_plural = "カテゴリ"
-        ordering = ['order']
+    class Meta:#このCategoryという表をどう扱うか
+        verbose_name = "カテゴリ"#これを管理画面でカテゴリという名前で表示する
+        verbose_name_plural = "カテゴリ"#複数形
+        ordering = ['order']#並べる順番
 
 
 
@@ -59,7 +63,7 @@ class Organization(models.Model):
     image = models.ImageField(upload_to='org_images/', null=True, blank=True, verbose_name="画像")
 
     def __str__(self):
-        return f"[{self.get_type_display()}] {self.name}"
+        return f"[{self.get_type_display()}] {self.name}"#[種類(TYPE_CHOICESの代に引数)] 団体名」の形式で表示名を返す
 
     class Meta:
         verbose_name = "団体・組織"
@@ -70,12 +74,12 @@ class Organization(models.Model):
 class Blog(models.Model):
     title = models.CharField(max_length=200, verbose_name="タイトル")
     content = CKEditor5Field(config_name='extends', blank=True, null=True, verbose_name="本文")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="投稿者")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="投稿者")#もしユーザーが削除されたら、その人が書いた記事も一緒に削除される
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="作成日")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="更新日")
     
     #複数選択OK
-    categories = models.ManyToManyField(Category, related_name='blogs', verbose_name="カテゴリ")
+    categories = models.ManyToManyField(Category, related_name='blogs', verbose_name="カテゴリ")#カテゴリから記事を呼ぶときにrelated_name='blogs'を書いとくとcategory.blogs.all()と書けるからtempalateで使う
     
     #所属団体
     organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="関連団体")
@@ -94,13 +98,18 @@ class Blog(models.Model):
     
     def save(self, *args, **kwargs):
         if self.content:
-            self.content = self.content.replace('&nbsp;', ' ')
-        super().save(*args, **kwargs)
+            self.content = self.content.replace('&nbsp;', ' ')#邪魔だから消す
+        super().save(*args, **kwargs)#djangoでは保存方法を替えたら親クラスの保存メソッドを継承してもう一回保存する(子クラス自体には保存能力がない)。
+                                     #これ書かないと保存できない(子クラスが保存をかき消してしまう)。
+  
     class Meta:
         verbose_name = "ブログ記事"
         verbose_name_plural = "ブログ記事"
-        ordering = ['-priority', '-created_at']
+        ordering = ['-priority', '-created_at']#並べる第一優先は優先度、次に日にち
 
+
+
+#使っていないコード、将来的にブログそれぞれにコメントつけられるようにしたい
 class Comment(models.Model):
     post = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
     author = models.CharField('お名前', max_length=50)

@@ -43,8 +43,11 @@
                 </div>
             </a>
         </article>
-        {% empty %}
-            {% if query %}
+
+{#リストを回すこと、そして、空だった時の処理、を1セットとして扱うためのdjango特有の書き方のためfor文の中にemptyがいる#}
+        
+        {% empty %}{#ブログが１件もなかったら#}
+            {% if query %}{#クエリがある、つまり検索ワードが入力されているなら下の説明をする、なかったらしない#}
             <div class="text-center py-16 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
                 <p class="text-gray-500 text-lg">記事が見つかりませんでした。</p>
                 <p class="text-gray-400 mt-2">別のキーワードで試してみてください。</p>

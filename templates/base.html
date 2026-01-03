@@ -142,4 +142,25 @@
             <div class="mb-6">
                 {# お問い合わせリンク #}
                 <a href="{% url 'campus_guide:site_request' %}" class="text-indigo-600 hover:text-indigo-800 font-bold transition hover:underline flex items-center justify-center gap-1">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2"></path>
+                    </svg>
+                    掲載依頼・お問い合わせはこちら
+                </a>
+            </div>
+            <p>&copy; 2024 Canvas Compass - 中央大学理工学部 非公式ガイド</p>
+        </div>
+    </footer>
+
+    {# スマホメニュー開閉用スクリプト #}
+    <script>
+        const btn = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -191,8 +191,8 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 
-def redirect_to_custom_domain(get_response):
-    def middleware(request):
+def redirect_to_custom_domain(get_response):#get_responseはミドルウェア的に最初に行う処理
+    def middleware(request):#requestはサイト訪問者の情報
         host = request.get_host()
         if 'onrender.com' in host:
             return redirect(f'https://canvas-compass.net{request.path}', permanent=True)
