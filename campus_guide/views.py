@@ -61,19 +61,19 @@ def organization_detail(request, pk):
 
 #検索機能
 def search_view(request):
-    query = request.GET.get('keyword')#入力フォームからの検索キーワード受け取り
-    results = []
+    query = request.GET.get('keyword')#URLの「?keyword=なんちゃら」の部分から文字(なんちゃら)を取り出す
+    results = []#結果いれる用
 
     if query:
-        results = Blog.objects.filter(
+        results = Blog.objects.filter(#ブログ記事に対してフィルタリングする
             Q(title__icontains=query) | #タイトルにキーワードが含まれているか
             Q(content__icontains=query) |#記事内容
             Q(organization__name__icontains=query)#団体名
-        ).distinct().order_by('-priority', '-created_at')
+        ).distinct().order_by('-priority', '-created_at')#distinctで２つ以上残ったら1つにする、orderで優先度、更新日順に
 
     return render(request, 'app_folder/search_results.html', {#return render(受け取った第一引数,表示させたいHTML,渡したい変数)
-        'query': query,
-        'results': results,
+        'query': query,#ユーザーの入力した文字
+        'results': results,#フィルタリング、並べ替えした内容
     })
 
 #要望フォーム
@@ -82,8 +82,8 @@ def request_form_view(request):
         form = SiteRequestForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'app_folder/request_done.html')
+            return render(request, 'app_folder/request_done.html')#POST実行時、つまり入力したものについて送信したときこれが実行
     else:
         form = SiteRequestForm()
 
-    return render(request, 'app_folder/request_form.html', {'form': form})
+    return render(request, 'app_folder/request_form.html', {'form': form})#最初のget時、もしくは入力不備の時これが実行
