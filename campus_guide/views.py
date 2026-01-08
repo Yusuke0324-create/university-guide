@@ -79,11 +79,13 @@ def search_view(request):
 #要望フォーム
 def request_form_view(request):
     if request.method == 'POST':
-        form = SiteRequestForm(request.POST)
+        form = SiteRequestForm(request.POST)#ユーザーが書いた内容を一時的に保持
         if form.is_valid():
-            form.save()
+            form.save()#内容をデータベースに保存
             return render(request, 'app_folder/request_done.html')#POST実行時、つまり入力したものについて送信したときこれが実行
+                
     else:
         form = SiteRequestForm()
 
     return render(request, 'app_folder/request_form.html', {'form': form})#最初のget時、もしくは入力不備の時これが実行
+#app_folder/request_form.htmlにformを渡す
